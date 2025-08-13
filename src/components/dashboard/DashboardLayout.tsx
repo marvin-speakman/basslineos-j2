@@ -8,6 +8,8 @@ type DashboardLayoutProps = {
 const navItems = [
     { name: 'Overview', href: '/dashboard' },
     { name: 'Site Content', href: '/dashboard/content' },
+    { name: 'Media', href: '/dashboard/media' },
+    { name: 'Analytics', href: '/dashboard/analytics' },
     { name: 'Theme', href: '/dashboard/theme' },
     { name: 'Socials', href: '/dashboard/socials' },
     { name: 'Calendar', href: '/dashboard/calendar' },

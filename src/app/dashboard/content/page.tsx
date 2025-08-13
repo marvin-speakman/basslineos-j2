@@ -1,7 +1,7 @@
 "use client";
 
-// This will be a client component to handle form state and interactions.
 import { useState } from 'react';
+import RichTextEditor from '@/components/forms/RichTextEditor';
 
 export default function ContentPage() {
   const [bio, setBio] = useState('');
@@ -21,13 +21,9 @@ export default function ContentPage() {
           <label htmlFor="bio" className="block text-sm font-medium text-gray-300 mb-2">
             Your Bio
           </label>
-          <textarea
-            id="bio"
-            rows={5}
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            className="block w-full px-3 py-2 bg-background border border-gray-600 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-            placeholder="Tell the world about yourself..."
+          <RichTextEditor
+            content={bio}
+            onChange={(newContent) => setBio(newContent)}
           />
         </div>
         <div>
