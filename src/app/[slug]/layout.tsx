@@ -27,7 +27,7 @@ export default async function UserSiteLayout({ children, params }: Props) {
         { name: 'Events', href: `/${site.site_slug}/events` },
         { name: 'Gallery', href: `/${site.site_slug}/gallery` },
     ];
-
+    
     // Only show shop if user is on Studio plan
     if (site.user.subscription_status === 'Studio') {
         navItems.push({ name: 'Shop', href: `/${site.site_slug}/products` });
