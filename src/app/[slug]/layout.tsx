@@ -13,7 +13,7 @@ export default async function UserSiteLayout({ children, params }: Props) {
 
     const { data: site } = await supabase
         .from('sites')
-        .select(`*, user:users(username)`)
+        .select(`*, user:users(username, subscription_status)`)
         .eq('site_slug', params.slug)
         .single();
 
@@ -26,8 +26,15 @@ export default async function UserSiteLayout({ children, params }: Props) {
         { name: 'Music', href: `/${site.site_slug}/music` },
         { name: 'Events', href: `/${site.site_slug}/events` },
         { name: 'Gallery', href: `/${site.site_slug}/gallery` },
-        { name: 'Contact', href: `/${site.site_slug}/contact` },
     ];
+    
+    // Only show shop if user is on Studio plan
+    if (site.user.subscription_status === 'Studio') {
+        navItems.push({ name: 'Shop', href: `/${site.site_slug}/products` });
+    }
+
+    navItems.push({ name: 'Contact', href: `/${site.site_slug}/contact` });
+
 
     return (
         <div className="bg-background text-white min-h-screen">

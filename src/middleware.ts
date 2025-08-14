@@ -4,19 +4,34 @@ import { createClient } from '@/lib/supabase/middleware';
 export async function middleware(request: NextRequest) {
   const { supabase, response } = createClient(request);
 
-  // Refresh session if expired - required for Server Components
-  // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // Define protected routes
-  const protectedRoutes = ['/dashboard'];
-  const currentPath = request.nextUrl.pathname;
+  const { pathname } = request.nextUrl;
 
-  if (protectedRoutes.includes(currentPath)) {
+  // Protected routes for standard users
+  if (pathname.startsWith('/dashboard')) {
     if (!session) {
       return NextResponse.redirect(new URL('/login', request.url));
+    }
+  }
+
+  // Protected routes for admin users
+  if (pathname.startsWith('/admin')) {
+    if (!session) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+
+    // Check for admin role
+    const { data: userRole } = await supabase
+      .from('users')
+      .select('role')
+      .eq('id', session.user.id)
+      .single();
+
+    if (userRole?.role !== 'admin') {
+      return NextResponse.redirect(new URL('/dashboard', request.url)); // Redirect non-admins
     }
   }
 
@@ -30,7 +45,6 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
      */
     '/((?!_next/static|_next/image|favicon.ico).*)',
   ],

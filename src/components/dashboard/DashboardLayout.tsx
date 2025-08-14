@@ -10,6 +10,8 @@ const navItems = [
     { name: 'Site Content', href: '/dashboard/content' },
     { name: 'Media', href: '/dashboard/media' },
     { name: 'Analytics', href: '/dashboard/analytics' },
+    { name: 'Products', href: '/dashboard/products' },
+    { name: 'Page Builder', href: '/dashboard/builder' },
     { name: 'Theme', href: '/dashboard/theme' },
     { name: 'Socials', href: '/dashboard/socials' },
     { name: 'Calendar', href: '/dashboard/calendar' },
